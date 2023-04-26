@@ -1,0 +1,123 @@
+
+
+// Cisco CLI kommando CHEATSHEET
+
+
+//Hostname
+enable
+config t
+hostname R-1
+
+
+//ipv4 adresse
+interface g0/0
+ip address 192.168.1 255.255.255.192
+no shutdown
+exit
+
+//Banner motd
+banner motd #test#
+
+// Encrypted privileged exec password
+config t
+enable secret Ab123456
+exit
+copy running-config startup-config
+
+// Console Access password
+config t
+line console 0
+password Ab123456
+login
+exit
+exit
+copy running-config startup-config
+
+// VTY access password
+config t
+line vty 0 15
+password ciscovty
+login
+exit
+
+// Encrypt plaintext passwords
+config t
+service password-encryption
+exit
+
+// Disable DNS lookup
+config t
+no ip domain-lookup
+
+// Sæt domain name
+config t
+ip domain-name CCNA.com
+
+// Opret user
+config t
+username test secret Ab123456
+
+// Generate RSA-1024 keys
+config t
+crypto key generate rsa
+(Vælg størrelse på nøglerne)
+
+// Login block failed attempts indenfor tidsramme
+config t
+login block-for 180 attempts 4 within 120
+
+// Tillad og konfigurer SSH adgang
+config t
+line vty 0 4
+transport input ssh
+login local
+
+// EXEC mode timeout (tallet står i minutter)
+config t
+line vty 0 4
+exec-timeout 6
+
+// Disable unused ports
+config t
+interface range F0/2-24, G0/2
+shutdown
+
+// RIP OPSÆTNING (Skriv de forskellige netværk der skal advertises i network kommandoen)
+router rip
+version 2
+network 192.168.192.65
+network 192.168.192.1
+no auto-summary
+exit
+exit
+copy running-config startup-config
+
+// Gem config på tftp server
+copy running-config tftp
+
+( Skriv IP-adresse på den maskine der skal gemmes på og tryk ja. )
+
+
+
+Gængse kommandoer til at finde information om Layer 2 & Layer 3
+
+    show version: 
+	This command displays the software version, hardware version, and other system information of the router.
+
+    show running-config: 
+	This command displays the current configuration of the router, including interface settings, routing protocols, and access control lists (ACLs).
+
+    show interfaces: 
+	This command displays the status and configuration of all interfaces on the router, including Ethernet, serial, and loopback interfaces.
+
+    show ip route: 
+	This command displays the routing table of the router, including all routes learned from various sources, such as connected networks, static routes, and dynamic routing protocols.
+
+    show arp: 
+	This command displays the Address Resolution Protocol (ARP) cache of the router, which maps IP addresses to MAC addresses.
+
+    show cdp neighbors: 
+	This command displays information about neighboring devices that are discovered using the Cisco Discovery Protocol (CDP), including the device ID, IP address, and platform information.
+
+    show vlan: 
+	This command displays information about the VLANs configured on the router, including VLAN IDs, names, and interfaces assigned to each VLAN.
