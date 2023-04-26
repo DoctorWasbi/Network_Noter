@@ -24,6 +24,10 @@ enable secret Ab123456
 exit
 copy running-config startup-config
 
+// NORMAL privileged exec password
+config t
+enable password Ab123456
+
 // Console Access password
 config t
 line console 0
@@ -66,7 +70,7 @@ crypto key generate rsa
 config t
 login block-for 180 attempts 4 within 120
 
-// Tillad og konfigurer SSH adgang
+// Tillad og konfigurer SSH adgang & brug local user til autentificering
 config t
 line vty 0 4
 transport input ssh
@@ -81,6 +85,12 @@ exec-timeout 6
 config t
 interface range F0/2-24, G0/2
 shutdown
+
+// Slet startup-config (Husk og reload)
+erase startup-config
+
+// reload
+reload
 
 // RIP OPSÆTNING (Skriv de forskellige netværk der skal advertises i network kommandoen)
 router rip
