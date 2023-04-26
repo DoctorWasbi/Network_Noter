@@ -49,6 +49,15 @@ config t
 service password-encryption
 exit
 
+// ipv6 configuration
+config t
+ipv6 unicast-routing
+interface g0/0
+ipv6 enable
+ipv6 address 2001:123:dad:1::1/56
+ipv6 address fe80::1 link-local
+no shutdown
+
 // Disable DNS lookup
 config t
 no ip domain-lookup
