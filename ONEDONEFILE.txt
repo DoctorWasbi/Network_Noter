@@ -104,8 +104,9 @@ reload
 // RIP OPSÆTNING (Skriv de forskellige netværk der skal advertises i network kommandoen)
 router rip
 version 2
-network 192.168.192.65
-network 192.168.192.1
+network 172.30.20.0
+network 172.30.20.1
+network 172.30.20.129
 no auto-summary
 exit
 exit
