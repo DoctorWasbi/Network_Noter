@@ -1,0 +1,56 @@
+//Router
+
+enable
+config t
+hostname R-1
+interface g0/0
+ip address 192.168.192.1 255.255.255.192
+no shutdown
+exit
+interface s0/0/0
+ip address 192.168.192.65 255.255.255.192
+no shutdown
+exit
+banner motd #Access denied#
+enable password class
+line console 0
+password cisco
+login
+exit
+line vty 0 4
+password ciscovty
+login
+exit
+service password-encryption
+router rip
+version 2
+network 192.168.192.65
+network 192.168.192.1
+no auto-summary
+exit
+exit
+copy running-config startup-config
+
+
+//Switch
+
+enable
+config t
+hostname S-1
+interface vlan1
+ip address 192.168.192.1 255.255.255.192
+no shutdown
+exit
+banner motd #Access denied#
+enable password class
+line console 0
+password cisco
+login
+exit
+line vty 0 15
+password ciscovty
+login
+exit
+service password-encryption
+exit
+copy running-config startup-config

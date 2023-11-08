@@ -1,0 +1,30 @@
+enable
+config t
+hostname R-41
+interface g0/0
+ip address 192.168.15.0 255.255.255.0
+no shutdown
+exit
+interface s0/0/0
+ip address 192.168.15.0 255.255.255.0
+no shutdown
+exit
+banner motd #Access denied#
+enable password class
+line console 0
+password cisco
+login
+exit
+line vty 0 4
+password ciscovty
+login
+exit
+service password-encryption
+router rip
+version 2
+network 192.168.15.0
+network 192.168.192.1
+no auto-summary
+exit
+exit
+copy running-config startup-config
