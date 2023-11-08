@@ -124,6 +124,7 @@ switchport mode access
 
 // Assign vlan to interface (Hvis vlan ikke findes opretter den det automatisk)
 switchport access vlan 99
+
 // Set the native VLAN to something other than VLAN1
 switchport trunk native vlan 99
 
@@ -133,6 +134,7 @@ switchport trunk allowed vlan 1,10,20,99,1000
 // Slet vlan fra databasen
 no vlan 30
 
+
 // Verify trunk config
 show dtp interface fa0/1
 show vlan brief
@@ -140,8 +142,11 @@ show vlan brief
 // Delete vlan config (tryk enter enter)
 delete vlan.dat
 
+// Use port to negotiate trunkmode
+switchport mode dynamic desirable
 
-
+// opsætning af encapsulation til subinterfaces (vlanid skal f.eks udfyldes 99)
+encapsulation dot1q <vlanid>
 
 // Gem config på tftp server
 copy running-config tftp
