@@ -17,7 +17,7 @@ Router(config-if)# ipv6 address 2001:db8:acad:1::/64
 Router(config-if)# ipv6 dhcp server POOL-NAVN
 
 
--------------------------// Stateless DHCPv6 opsætning //-------------------------------
+-------------------------// Stateless DHCPv6 opsætning //--------------------------------
 
 	1. Aktiver IPv6-routing:
 
@@ -34,6 +34,6 @@ Router(config-dhcp)# domain-name netacad.net
 Router(config)# interface g0/1
 Router(config-if)# ipv6 nd other-config-flag 
 
-##Bemærk, at "ipv6 nd other-config-flag" indstillingen er afgørende for stateless DHCPv6 og skal aktiveres ##
-##på de relevante interfaces for at sende supplerende konfigurationsoplysninger til klientenhederne.##
+.##Bemærk, at "ipv6 nd other-config-flag" indstillingen er afgørende for stateless DHCPv6 og skal aktiveres
+  på de relevante interfaces for at sende supplerende konfigurationsoplysninger til klientenhederne.##.
 
