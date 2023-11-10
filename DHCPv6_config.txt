@@ -1,0 +1,39 @@
+--------------------------//Stateful DHCPv6 opsætning //---------------------------------
+
+    1. Aktiver IPv6-routing:
+	
+Router(config)# ipv6 unicast-routing
+
+	2. Opstætning af DHCPv6-pool med DNS og domænenavn (ændr værdierne efter dine behov):
+
+Router(config)# ipv6 dhcp pool POOL-NAVN
+Router(config-dhcp)# dns-server 2001:db8:acad:a1::10
+Router(config-dhcp)# domain-name netacad.net
+
+	3.Tildel poolen til et interface:
+
+Router(config)# interface g0/1
+Router(config-if)# ipv6 address 2001:db8:acad:1::/64
+Router(config-if)# ipv6 dhcp server POOL-NAVN
+
+
+-------------------------// Stateless DHCPv6 opsætning //--------------------------------
+
+	1. Aktiver IPv6-routing:
+
+Router(config)# ipv6 unicast-routing
+
+	2. Opsætning af DHCPv6-pool med DNS og domænenavn (ændr værdierne efter dine behov):
+
+
+Router(config)# ipv6 dhcp pool POOL-NAVN
+Router(config-dhcp)# dns-server 2001:db8:acad:a1::10
+Router(config-dhcp)# domain-name netacad.net
+
+	3. Tildel pool til et interface
+Router(config)# interface g0/1
+Router(config-if)# ipv6 nd other-config-flag 
+
+.##Bemærk, at "ipv6 nd other-config-flag" indstillingen er afgørende for stateless DHCPv6 og skal aktiveres
+  på de relevante interfaces for at sende supplerende konfigurationsoplysninger til klientenhederne.##.
+
