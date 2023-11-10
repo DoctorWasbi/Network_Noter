@@ -112,43 +112,28 @@ exit
 exit
 copy running-config startup-config
 
-// Arbejd med flere interfaces på en gang
-interface range f0/1-24
+// Vis trunk interfaces
+show interfaces trunk
 
-// Set port to permanent trunking mode
-interface fa0/1
-switchport mode trunk
+//exclude ipv4 addresses
+ip dhcp excluded-address 192.168.10.1 192.168.10.9
+ip dhcp excluded address 192.168.10.254
 
-// Set port to permanent access mode
-switchport mode access
+//define dhcpv4 pool name
+ip dhcp pool LAN-POOL-1
+network 192.168.10.0 255.255.255.0
+default-router 192.168.10.1 
+dns-server 192.168.10.5
+domain-name example.com
+end
 
-// Assign vlan to interface (Hvis vlan ikke findes opretter den det automatisk)
-switchport access vlan 99
-
-// Set the native VLAN to something other than VLAN1
-switchport trunk native vlan 99
-
-// Specify the list of vlans to be allowed on the trunk link (gøres på porten ikke vlan
-switchport trunk allowed vlan 1,10,20,99,1000
-
-// Slet vlan fra databasen
-no vlan 30
+// Opsæt IP helper - DHCP over flere netværk (Opsættes på den side af routeren der skal have dhcp.
+inteface g0/0/0 
+ip helper-address 192.168.11.6
 
 
-// Verify trunk config
-show dtp interface fa0/1
-show vlan brief
-
-// Delete vlan config (tryk enter enter)
-delete vlan.dat
-
-// Use port to negotiate trunkmode
-switchport mode dynamic desirable
-
-// opsætning af encapsulation til subinterfaces (vlanid skal f.eks udfyldes 99)
-encapsulation dot1q <vlanid>
-
-//
+// Se DCHP opsætning i cli
+show running-config | section dhcp
 
 // Gem config på tftp server
 copy running-config tftp
