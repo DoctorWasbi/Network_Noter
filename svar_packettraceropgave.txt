@@ -1,0 +1,11 @@
+In the GigabitEthernet0/0 interface on CoreRTR, configure an IPv6 address and enable DHCPv6 server functionality:
+interface GigabitEthernet0/0
+ipv6 address 2001:DB8:1234:ABCD::1/64
+ipv6 dhcp server CISCO
+
+Also, add the following lines under the "ipv6 dhcp pool CISCO" section to specify the default gateway and DNS server:
+
+default-router 2001:DB8:1234:ABCD::1
+dns-server 2001:DB8:1234:5678::10
+
+ipconfig /renew
