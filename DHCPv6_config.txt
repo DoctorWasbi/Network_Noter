@@ -36,4 +36,3 @@ Router(config-if)# ipv6 nd other-config-flag
 
 .##Bemærk, at "ipv6 nd other-config-flag" indstillingen er afgørende for stateless DHCPv6 og skal aktiveres
   på de relevante interfaces for at sende supplerende konfigurationsoplysninger til klientenhederne.##.
-
