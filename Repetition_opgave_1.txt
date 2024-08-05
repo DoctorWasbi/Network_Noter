@@ -1,0 +1,40 @@
+// ROUTER
+enable
+conf t
+hostname R1
+int g0/0
+no shutdown
+exit
+int g0/0.30
+ip address 192.168.30.1 255.255.255.0
+encapsulation dot1q 30
+no shutdown
+exit
+int vlan 30
+int g0/0.40 
+ip address 192.168.40.1 255.255.255.0
+encapsulation dot1q 40
+no shutdown
+exit
+
+
+
+// Switch
+enable
+conf t
+hostname SW1
+int f0/1
+no shutdown
+switchport mode trunk
+sw trunk allowed vlan 30,40
+exit
+int f0/3
+sw mode access 
+sw access vlan 30
+no shutdown
+exit
+int f0/4
+sw mode access 
+sw access vlan 40
+no shutdown
+exit

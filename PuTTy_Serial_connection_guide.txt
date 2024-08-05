@@ -1,0 +1,9 @@
+PuTTy terminal connection
+
+1. Åbn PuTTy
+2. Tryk på 'Serial' i category menuen
+3. Tast den COM port du finder i enhedshåndtering når du sætter console kablet i (EKS "COM3")
+4. Tryk på Session øverst i category menuen
+5. Tryk på 'Serial' fanebladet
+6. Tast Com port endnu engang
+7. Tryk 'OPEN' i bunden og du er igang :)
