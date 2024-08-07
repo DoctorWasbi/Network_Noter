@@ -1,0 +1,348 @@
+=~=~=~=~=~=~=~=~=~=~=~= PuTTY log 2024.08.06 13:45:11 =~=~=~=~=~=~=~=~=~=~=~=
+show run
+Building configuration...
+
+Current configuration : 1429 bytes
+!
+! Last configuration change at 22:46:44 UTC Mon Mar 1 1993
+!
+version 15.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname SW1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+no aaa new-model
+system mtu routing 1500
+!
+!
+!
+!
+ --More--         !
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+!
+!
+!
+!
+!
+interface FastEthernet0/1
+ switchport trunk allowed vlan 30,40
+ switchport mode trunk
+!
+interface FastEthernet0/2
+!
+interface FastEthernet0/3
+ --More--          switchport access vlan 30
+ switchport mode access
+!
+interface FastEthernet0/4
+ switchport access vlan 40
+ switchport mode access
+!
+interface FastEthernet0/5
+!
+interface FastEthernet0/6
+!
+interface FastEthernet0/7
+!
+interface FastEthernet0/8
+!
+interface FastEthernet0/9
+!
+interface FastEthernet0/10
+!
+interface FastEthernet0/11
+!
+interface FastEthernet0/12
+!
+ --More--         interface FastEthernet0/13
+!
+interface FastEthernet0/14
+!
+interface FastEthernet0/15
+!
+interface FastEthernet0/16
+!
+interface FastEthernet0/17
+!
+interface FastEthernet0/18
+!
+interface FastEthernet0/19
+!
+interface FastEthernet0/20
+!
+interface FastEthernet0/21
+!
+interface FastEthernet0/22
+!
+interface FastEthernet0/23
+!
+interface FastEthernet0/24
+ --More--         !
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+!
+interface Vlan1
+!
+ip http server
+ip http secure-server
+!
+!
+!
+line con 0
+line vty 5 15
+!
+end
+
+SW1#
+R1#show run
+Building configuration...
+
+Current configuration : 2616 bytes
+!
+! Last configuration change at 12:01:32 UTC Fri Jun 29 2018
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+ --More--         !
+!
+!
+!
+!
+!
+ip dhcp excluded-address 192.168.10.1 192.168.10.20
+ip dhcp excluded-address 192.168.20.1 192.168.20.20
+ip dhcp excluded-address 192.168.30.1 192.168.30.20
+ip dhcp excluded-address 192.168.40.1 192.168.40.20
+!
+ip dhcp pool vlan10
+ network 192.168.10.0 255.255.255.0
+ dns-server 8.8.8.8 
+ default-router 192.168.10.3 
+!
+ip dhcp pool vlan20
+ network 192.168.20.0 255.255.255.0
+ dns-server 8.8.8.8 
+ default-router 192.168.20.3 
+!
+ip dhcp pool vlan30
+ network 192.168.30.0 255.255.255.0
+ --More--          dns-server 8.8.8.8 
+ default-router 192.168.30.1 
+!
+ip dhcp pool vlan40
+ network 192.168.40.0 255.255.255.0
+ dns-server 8.8.8.8 
+ default-router 192.168.40.1 
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+cts logging verbose
+!
+!
+license udi pid CISCO1941/K9 sn FCZ1602C30N
+license accept end user agreement
+license boot module c1900 technology-package securityk9
+!
+!
+ --More--         !
+redundancy
+!
+!
+!
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Embedded-Service-Engine0/0
+ no ip address
+ shutdown
+!
+interface GigabitEthernet0/0
+ no ip address
+ --More--          duplex auto
+ speed auto
+!
+interface GigabitEthernet0/0.30
+ encapsulation dot1Q 30
+ ip address 192.168.30.1 255.255.255.0
+!
+interface GigabitEthernet0/0.40
+ encapsulation dot1Q 40
+ ip address 192.168.40.1 255.255.255.0
+!
+interface GigabitEthernet0/1
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+interface Serial0/0/0
+ ip address 192.168.1.1 255.255.255.252
+ clock rate 2000000
+!
+interface Serial0/0/1
+ ip address 192.168.2.1 255.255.255.252
+ --More--         !
+interface FastEthernet0/1/0
+ no ip address
+!
+interface FastEthernet0/1/1
+ no ip address
+!
+interface FastEthernet0/1/2
+ no ip address
+!
+interface FastEthernet0/1/3
+ no ip address
+!
+interface Vlan1
+ no ip address
+!
+interface Vlan30
+ no ip address
+!
+interface Vlan40
+ no ip address
+!
+ip forward-protocol nd
+ --More--         !
+no ip http server
+no ip http secure-server
+!
+ip route 192.168.10.0 255.255.255.0 Serial0/0/0 192.168.1.2
+ip route 192.168.10.0 255.255.255.0 Serial0/0/1 192.168.2.2
+ip route 192.168.20.0 255.255.255.0 Serial0/0/0 192.168.1.2
+ip route 192.168.20.0 255.255.255.0 Serial0/0/1 192.168.2.2
+!
+!
+!
+!
+control-plane
+!
+!
+!
+line con 0
+line aux 0
+line 2
+ no activation-character
+ no exec
+ transport preferred none
+ transport output pad telnet rlogin lapb-ta mop udptn v120 ssh
+ --More--          stopbits 1
+line vty 0 4
+ login
+ transport input none
+!
+scheduler allocate 20000 1000
+!
+end
+
+R1#write mem
+Building configuration...
+[OK]
+R1#
+R2#write mem
+Building configuration...
+[OK]
+R2#
+R3#write mem
+Building configuration...
+[OK]
+R3#
+S3#write mem
+Building configuration...
+[OK]
+S3#
+SW2#write mem
+Building configuration...
+[OK]
+SW2#WRITE MEM
+Building configuration...
+[OK]
+SW1#SHOW      
+R2#show standby brief
+                     P indicates configured to preempt.
+                     |
+Interface   Grp  Pri P State   Active          Standby         Virtual IP
+Gi0/0.10    10   100   Standby 192.168.10.2    local           192.168.10.3
+Gi0/0.20    20   100   Standby 192.168.20.2    local           192.168.20.3
+R2#
+R3#write mem         show standby brief
+                     P indicates configured to preempt.
+                     |
+Interface   Grp  Pri P State   Active          Standby         Virtual IP
+Gi0/0.10    10   100   Active  local           192.168.10.1    192.168.10.3
+Gi0/0.20    20   100   Active  local           192.168.20.1    192.168.20.3
+R3#
+R3#show standby brief
+                     P indicates configured to preempt.
+                     |
+Interface   Grp  Pri P State   Active          Standby         Virtual IP
+Gi0/0.10    10   100   Active  local           192.168.10.1    192.168.10.3
+Gi0/0.20    20   100   Active  local           192.168.20.1    192.168.20.3
+R3#
+R3#
+S3#show interface trubkB4B4      nk
+
+Port        Mode             Encapsulation  Status        Native vlan
+Fa0/1       on               802.1q         trunking      1
+Po1         on               802.1q         trunking      1
+
+Port        Vlans allowed on trunk
+Fa0/1       10,20
+Po1         10,20
+
+Port        Vlans allowed and active in management domain
+Fa0/1       10,20
+Po1         10,20
+
+Port        Vlans in spanning tree forwarding state and not pruned
+Fa0/1       10,20
+Po1         10,20
+S3#
