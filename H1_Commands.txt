@@ -132,6 +132,31 @@ inteface g0/0/0
 ip helper-address 192.168.11.6
 
 
+*******//// ROUTER OSPF OPSÆTNING //// *********
+* Husk at slå static routes fra, ellers så slår OSPF ikke til: 'no ip route *'
+
+// R1 Router OSPF 
+router ospf 1
+router-id 1.1.1.1
+network 192.168.1.0 0.0.0.3 area 0
+network 192.168.2.0 0.0.0.3 area 0
+network 192.168.30.0 0.0.0.255 area 0
+network 192.168.40.0 0.0.0.255 area 0
+
+// R2 Router OSPF
+router ospf 1
+router-id 2.2.2.2
+network 192.168.1.0 0.0.0.3 area 0
+network 192.168.10.0 0.0.0.255 area 0
+network 192.168.20.0 0.0.0.255 area 0
+
+// R3 Router OSPF
+router ospf 1
+router-id 3.3.3.3
+network 192.168.2.0 0.0.0.3 area 0
+network 192.168.10.0 0.0.0.255 area 0
+network 192.168.20.0 0.0.0.255 area 0
+
 // Se DCHP opsætning i cli
 show running-config | section dhcp
 

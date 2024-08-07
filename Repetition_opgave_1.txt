@@ -1,4 +1,4 @@
-// ROUTER
+******** //// ROUTER 1 ///// *************
 enable
 conf t
 hostname R1
@@ -16,9 +16,84 @@ ip address 192.168.40.1 255.255.255.0
 encapsulation dot1q 40
 no shutdown
 exit
+int s0/0/0
+ip address 192.168.1.1 255.255.255.252
+no shutdown
+exit
+int s0/0/1
+ip address 192.168.2.1 255.255.255.252
+no shutdown
+exit
 
 
+******** //// ROUTER 2 ///// *************
+enable
+conf t
+hostname R2
+int s0/0/0
+ip address 192.168.1.2 255.255.255.252
+no shutdown
+exit
+int g0/0
+no shutdown
+exit
+int g0/0.10
+encapsulation dot1q 10
+ip address 192.168.10.1 255.255.255.0
+standby 10 ip 192.168.10.3
+ip helper address 192.168.1.1
+int g0/0.20
+encapsulation dot1q 20
+ip address 192.168.20.1 255.255.255.0
+standby 10 ip 192.168.20.3
+ip helper address 192.168.1.1
 
+******** //// ROUTER 3 ///// *************
+enable
+conf t
+hostname R3
+int s0/0/0
+ip address 192.168.2.2 255.255.255.252
+no shutdown
+exit
+int g0/0.10
+encapsulation dot1q 10
+ip address 192.168.10.2 255.255.255.0
+standby 10 ip 192.168.10.3
+ip helper address 192.168.2.1
+int g0/0.20
+encapsulation dot1q 20
+ip address 192.168.20.2 255.255.255.0
+standby 10 ip 192.168.20.3
+ip helper address 192.168.2.1
+
+
+*******//// ROUTER OSPF OPSÆTNING //// *********
+* Husk at slå static routes fra, ellers så slår OSPF ikke til: 'no ip route *'
+
+// R1 Router OSPF 
+router ospf 1
+router-id 1.1.1.1
+network 192.168.1.0 0.0.0.3 area 0
+network 192.168.2.0 0.0.0.3 area 0
+network 192.168.30.0 0.0.0.255 area 0
+network 192.168.40.0 0.0.0.255 area 0
+
+// R2 Router OSPF
+router ospf 1
+router-id 2.2.2.2
+network 192.168.1.0 0.0.0.3 area 0
+network 192.168.10.0 0.0.0.255 area 0
+network 192.168.20.0 0.0.0.255 area 0
+
+// R3 Router OSPF
+router ospf 1
+router-id 3.3.3.3
+network 192.168.2.0 0.0.0.3 area 0
+network 192.168.10.0 0.0.0.255 area 0
+network 192.168.20.0 0.0.0.255 area 0
+
+******** //// SWITCH 1 ///// *************
 // Switch
 enable
 conf t
@@ -38,3 +113,7 @@ sw mode access
 sw access vlan 40
 no shutdown
 exit
+
+******** //// SWITCH 2 ///// *************
+
+
