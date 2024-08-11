@@ -1,0 +1,10 @@
+///////// Oprettelse af statisk NAT translation for at mappe Server1 interne adresse til dens offentlige addresse. //////////////////
+R1(config)# ip nat inside source static 172.16.16.1 64.100.50.1
+
+/////////// ´Konfigurer G0/0 som inside interface, altså indersiden af netværket ///////////////////////////
+R1(config)# interface g0/0
+R1(config-if)# ip nat inside
+
+//////////// Configure the s0/0/0 public interface as an outside interface ////////////////////
+R1(config)# interface s0/0/0
+R1(config-if)# ip nat outside

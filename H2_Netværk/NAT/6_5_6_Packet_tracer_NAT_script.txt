@@ -1,0 +1,10 @@
+enable
+configure terminal
+access-list 1 permit 172.16.0.0 0.0.255.255
+ip nat pool ANY_POOL_NAME 209.165.200.229 209.165.200.230 netmask 255.255.255.252
+ip nat inside source list 1 pool ANY_POOL_NAME
+interface s0/0/0
+ ip nat outside
+ interface s0/0/1
+ ip nat inside
+end
