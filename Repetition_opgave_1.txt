@@ -114,9 +114,6 @@ sw access vlan 40
 no shutdown
 exit
 
-
-
-
 OSPF 
 
 show ip route | begin Gateway
@@ -127,3 +124,56 @@ show ip protocols
 show ip ospf
 show ip ospf interface g0/0/0
 
+
+
+
+
+
+
+
+
+
+
+
+SH RUN
+
+
+R1
+interface Serial0/0/0
+ ip address 192.168.1.1 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
+ clock rate 2000000
+!
+interface Serial0/0/1
+ ip address 192.168.2.1 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
+!
+
+R2
+interface Serial0/0/0
+ ip address 192.168.1.2 255.255.255.252
+'
+R3
+interface Serial0/0/0
+ ip address 192.168.2.2 255.255.255.252
+ clock rate 2000000
+
+
+
+
+/////////// NTP setup ////////////
+
+1. Find NTP Server på browseren
+2. int lo0
+3. ip address 10.0.100.100 255.255.255.0
+4. OSPF routing for 10.0.100.0 
+
+///// SYSLOG WATCHER ///////
+
+L3R2,L3R3,SW2,SW3,R1
+service timestamps log datetime msec
+logging host 10.51.30.8
+logging origin-id hostname
+logging trap 5
