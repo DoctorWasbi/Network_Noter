@@ -1,14 +1,14 @@
 
-1. Teknik må kun SSH
+1. Management må kun SSH
 
 conf t
-acc-list extended ER-DU-TEKNIK
-permit tcp 10.51.30.0 0.0.0.255 any eq 22
-deny tcp any any eq 22
-permit ip any any
+acc-list extended TILLAD-SSH
+permit tcp 172.21.99.0 0.0.0.255 any eq 22
+deny tcp any any eq 22 (deny any?)
+///////permit ip any any
 exit
 line vty 0 15
-ip acc-class ER-DU-TEKNIK in
+ip acc-class TILLAD-SSH in
 
 
 
@@ -25,6 +25,14 @@ ip access-group PING
 
 
 
-
+///MAKE ACCESS LIST
+ conf t
+ acc-list standard TILLAD-SSH
+ permit 172.21.99.0 0.0.0.255
+ 
+///APPLY ACCESS LIST
+conf t
+line vty 0 15
+acc-class TILLAD-SSH in
 
 
