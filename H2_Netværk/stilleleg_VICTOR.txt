@@ -1,0 +1,472 @@
+RB-VICTOR#sh run
+Building configuration...
+
+Current configuration : 3721 bytes
+!
+version 12.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+!
+hostname RB-VICTOR
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$vAcY$q97eWOQbmdtMyMaAqoQSy1
+!
+username admin password 7 097C4F1A0A1247000F
+!
+!
+no aaa new-model
+system mtu routing 1500
+ip routing
+no ip domain-lookup
+ip domain-name vba.local
+!
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+!
+!
+!
+interface Port-channel5
+ switchport trunk encapsulation dot1q
+ switchport trunk allowed vlan 10,20,30,40,99
+ switchport mode trunk
+!
+interface FastEthernet0/1
+ switchport trunk encapsulation dot1q
+ switchport trunk allowed vlan 10,20,30,40,99
+ switchport mode trunk
+ channel-group 5 mode desirable
+!
+interface FastEthernet0/2
+ switchport trunk encapsulation dot1q
+ switchport trunk allowed vlan 10,20,30,40,99
+ switchport mode trunk
+ channel-group 5 mode desirable
+!
+interface FastEthernet0/3
+!
+interface FastEthernet0/4
+!
+interface FastEthernet0/5
+!
+interface FastEthernet0/6
+!
+interface FastEthernet0/7
+!
+interface FastEthernet0/8
+!
+interface FastEthernet0/9
+!
+interface FastEthernet0/10
+!
+interface FastEthernet0/11
+!
+interface FastEthernet0/12
+!
+interface FastEthernet0/13
+!
+interface FastEthernet0/14
+!
+interface FastEthernet0/15
+!
+interface FastEthernet0/16
+!
+interface FastEthernet0/17
+!
+interface FastEthernet0/18
+!
+interface FastEthernet0/19
+!
+interface FastEthernet0/20
+!
+interface FastEthernet0/21
+!
+interface FastEthernet0/22
+!
+interface FastEthernet0/23
+!
+interface FastEthernet0/24
+!
+interface FastEthernet0/25
+!
+interface FastEthernet0/26
+!
+interface FastEthernet0/27
+!
+interface FastEthernet0/28
+!
+interface FastEthernet0/29
+!
+interface FastEthernet0/30
+!
+interface FastEthernet0/31
+!
+interface FastEthernet0/32
+!
+interface FastEthernet0/33
+!
+interface FastEthernet0/34
+!
+interface FastEthernet0/35
+!
+interface FastEthernet0/36
+!
+interface FastEthernet0/37
+!
+interface FastEthernet0/38
+!
+interface FastEthernet0/39
+!
+interface FastEthernet0/40
+!
+interface FastEthernet0/41
+!
+interface FastEthernet0/42
+!
+interface FastEthernet0/43
+!
+interface FastEthernet0/44
+!
+interface FastEthernet0/45
+!
+interface FastEthernet0/46
+!
+interface FastEthernet0/47
+!
+interface FastEthernet0/48
+ switchport access vlan 3
+ switchport mode access
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+!
+interface GigabitEthernet0/3
+!
+interface GigabitEthernet0/4
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan3
+ ip address 172.21.3.2 255.255.255.252
+!
+interface Vlan10
+ ip address 172.21.10.2 255.255.255.0
+ ip helper-address 172.21.3.1
+ standby 10 ip 172.21.10.3
+!
+interface Vlan20
+ ip address 172.21.20.2 255.255.255.0
+ ip helper-address 172.21.3.1
+ standby 20 ip 172.21.20.3
+!
+interface Vlan30
+ ip address 172.21.30.2 255.255.255.0
+ ip helper-address 172.21.3.1
+ standby 30 ip 172.21.30.3
+!
+interface Vlan40
+ ip address 172.21.40.2 255.255.255.0
+ ip helper-address 172.21.3.1
+ standby 40 ip 172.21.40.3
+!
+interface Vlan99
+ ip address 172.21.99.2 255.255.255.0
+ standby 99 ip 172.21.99.3
+!
+router ospf 1
+ router-id 3.3.3.3
+ log-adjacency-changes
+ passive-interface default
+ no passive-interface Vlan3
+ no passive-interface Vlan99
+ network 172.21.3.0 0.0.0.3 area 0
+ network 172.21.10.0 0.0.0.255 area 0
+ network 172.21.20.0 0.0.0.255 area 0
+ network 172.21.30.0 0.0.0.255 area 0
+ network 172.21.40.0 0.0.0.255 area 0
+ network 172.21.99.0 0.0.0.255 area 0
+!
+ip classless
+ip http server
+ip http secure-server
+!
+!
+!
+!
+banner motd ^CAuthorized access only^C
+!
+line con 0
+ password 7 00341215174C5B140B
+ logging synchronous
+line vty 0 4
+ login local
+ transport input ssh
+line vty 5 15
+ login
+!
+end
+
+RB-VICTOR#
+RB-VICTOR#
+RB-VICTOR#
+RB-VICTOR#sh vlan brief
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Fa0/3, Fa0/4, Fa0/5, Fa0/6
+                                                Fa0/7, Fa0/8, Fa0/9, Fa0/10
+                                                Fa0/11, Fa0/12, Fa0/13, Fa0/14
+                                                Fa0/15, Fa0/16, Fa0/17, Fa0/18
+                                                Fa0/19, Fa0/20, Fa0/21, Fa0/22
+                                                Fa0/23, Fa0/24, Fa0/25, Fa0/26
+                                                Fa0/27, Fa0/28, Fa0/29, Fa0/30
+                                                Fa0/31, Fa0/32, Fa0/33, Fa0/34
+                                                Fa0/35, Fa0/36, Fa0/37, Fa0/38
+                                                Fa0/39, Fa0/40, Fa0/41, Fa0/42
+                                                Fa0/43, Fa0/44, Fa0/45, Fa0/46
+                                                Fa0/47, Gi0/1, Gi0/2, Gi0/3
+                                                Gi0/4
+3    Vlan3                            active    Fa0/48
+10   direktion                        active
+20   lager                            active
+30   regnskab                         active
+40   server                           active
+99   management                       active
+666  Blackhole                        active
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1002 fddi-default                     act/unsup
+1003 token-ring-default               act/unsup
+1004 fddinet-default                  act/unsup
+1005 trnet-default                    act/unsup
+RB-VICTOR#
+RB-VICTOR#
+RB-VICTOR#
+RB-VICTOR#
+SW-VICTOR#sh run
+Building configuration...
+
+Current configuration : 3463 bytes
+!
+! Last configuration change at 03:38:13 UTC Mon Mar 1 1993
+!
+version 15.0
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+!
+hostname SW-VICTOR
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$d8hi$J.pfeUwn0ueBu6pP0lTij.
+!
+username admin password 7 06360E325F59590B01
+no aaa new-model
+system mtu routing 1500
+!
+!
+no ip domain-lookup
+ip domain-name vba.local
+!
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+!
+!
+!
+!
+!
+interface Port-channel3
+ switchport trunk allowed vlan 10,20,30,40,99
+ switchport mode trunk
+!
+interface Port-channel4
+ switchport trunk allowed vlan 10,20,30,40,99
+ switchport mode trunk
+!
+interface Port-channel5
+ switchport trunk allowed vlan 10,20,30,40,99
+ switchport mode trunk
+!
+interface FastEthernet0/1
+ switchport trunk allowed vlan 10,20,30,40,99
+ switchport mode trunk
+ channel-group 3 mode desirable
+!
+interface FastEthernet0/2
+ switchport trunk allowed vlan 10,20,30,40,99
+ switchport mode trunk
+ channel-group 3 mode desirable
+!
+interface FastEthernet0/3
+ switchport trunk allowed vlan 10,20,30,40,99
+ switchport mode trunk
+ channel-group 4 mode desirable
+!
+interface FastEthernet0/4
+ switchport trunk allowed vlan 10,20,30,40,99
+ switchport mode trunk
+ channel-group 4 mode desirable
+!
+interface FastEthernet0/5
+ switchport trunk allowed vlan 10,20,30,40,99
+ switchport mode trunk
+ channel-group 5 mode desirable
+!
+interface FastEthernet0/6
+ switchport trunk allowed vlan 10,20,30,40,99
+ switchport mode trunk
+ channel-group 5 mode desirable
+!
+interface FastEthernet0/7
+ switchport access vlan 10
+ switchport mode access
+!
+interface FastEthernet0/8
+ switchport access vlan 10
+ switchport mode access
+!
+interface FastEthernet0/9
+ switchport access vlan 10
+ switchport mode access
+!
+interface FastEthernet0/10
+ switchport access vlan 10
+ switchport mode access
+!
+interface FastEthernet0/11
+ switchport access vlan 10
+ switchport mode access
+!
+interface FastEthernet0/12
+ switchport access vlan 10
+ switchport mode access
+!
+interface FastEthernet0/13
+ switchport access vlan 20
+ switchport mode access
+!
+interface FastEthernet0/14
+ switchport access vlan 20
+ switchport mode access
+!
+interface FastEthernet0/15
+ switchport access vlan 20
+ switchport mode access
+!
+interface FastEthernet0/16
+ switchport access vlan 30
+ switchport mode access
+!
+interface FastEthernet0/17
+ switchport access vlan 30
+ switchport mode access
+!
+interface FastEthernet0/18
+ switchport access vlan 666
+ switchport mode access
+!
+interface FastEthernet0/19
+ switchport access vlan 666
+ switchport mode access
+!
+interface FastEthernet0/20
+ switchport access vlan 40
+ switchport mode access
+!
+interface FastEthernet0/21
+ switchport access vlan 40
+ switchport mode access
+!
+interface FastEthernet0/22
+ switchport access vlan 40
+ switchport mode access
+!
+interface FastEthernet0/23
+ switchport access vlan 40
+ switchport mode access
+!
+interface FastEthernet0/24
+ switchport access vlan 99
+ switchport mode access
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+!
+interface Vlan1
+ no ip address
+!
+interface Vlan99
+ ip address 172.21.99.96 255.255.255.0
+!
+ip default-gateway 172.21.99.3
+ip http server
+ip http secure-server
+!
+banner motd ^CAuthorized access only^C
+!
+line con 0
+ password 7 01230717481C561D25
+ logging synchronous
+line vty 0 4
+ login local
+ transport input ssh
+line vty 5 15
+ login
+!
+end
+
+SW-VICTOR#
+SW-VICTOR#
+SW-VICTOR#
+SW-VICTOR#sh vlan brief
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Gi0/1, Gi0/2
+10   direktion                        active    Fa0/7, Fa0/8, Fa0/9, Fa0/10
+                                                Fa0/11, Fa0/12
+20   lager                            active    Fa0/13, Fa0/14, Fa0/15
+30   regnskab                         active    Fa0/16, Fa0/17
+40   server                           active    Fa0/20, Fa0/21, Fa0/22, Fa0/23
+99   management                       active    Fa0/24
+666  blackhole                        active    Fa0/18, Fa0/19
+1002 fddi-default                     act/unsup
+1003 token-ring-default               act/unsup
+1004 fddinet-default                  act/unsup
+1005 trnet-default                    act/unsup
+SW-VICTOR#
+SW-VICTOR#
+SW-VICTOR#
+SW-VICTOR#
