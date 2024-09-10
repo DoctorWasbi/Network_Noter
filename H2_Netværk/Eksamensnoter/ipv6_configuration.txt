@@ -1,0 +1,155 @@
+/////////////////////// IPV6 ///////////////////////////
+
+1. Global IPv6 Configuration
+
+    ipv6 unicast-routing
+    Enables IPv6 routing on the router. This is a critical command for IPv6 functionality.
+    ipv6 cef
+    Enables Cisco Express Forwarding (CEF) for IPv6, improving packet switching performance.
+
+2. Interface Configuration
+
+    ipv6 address <address/prefix-length> [eui-64]
+    Configures a static IPv6 address on an interface. The eui-64 option automatically generates the interface ID.
+    ipv6 address autoconfig [default]
+    Enables Stateless Address Autoconfiguration (SLAAC) on the interface.
+    ipv6 enable
+    Enables IPv6 processing on an interface without assigning a specific address.
+    ipv6 nd suppress-ra
+    Suppresses the router advertisements (RAs) on an interface.
+    ipv6 nd reachable-time <milliseconds>
+    Sets the time a neighbor is considered reachable after a reachability confirmation.
+
+3. Routing Protocols
+
+    router rip <tag>
+    Enters the RIPng (RIP for IPv6) routing process configuration mode.
+    router eigrp <as-number>
+    Enters the EIGRP for IPv6 routing process configuration mode.
+    router ospfv3 <process-id>
+    Enters the OSPFv3 routing process configuration mode.
+    router bgp <as-number>
+    Enters the BGP configuration mode for IPv6. Within this mode, you would use address-family ipv6 to configure IPv6-specific BGP settings.
+    redistribute <protocol> ipv6
+    Redistributes routes from one routing protocol into another for IPv6.
+
+4. Access Control and Security
+
+    ipv6 access-list <name>
+    Creates or enters the configuration mode for an IPv6 access control list (ACL).
+    permit ipv6 any any
+    Allows IPv6 traffic from any source to any destination (used within an IPv6 ACL).
+    deny ipv6 any any
+    Blocks IPv6 traffic from any source to any destination (used within an IPv6 ACL).
+    ipv6 traffic-filter <acl-name> [in | out]
+    Applies an IPv6 ACL to an interface for inbound or outbound traffic.
+
+5. Neighbor Discovery
+
+    ipv6 nd router-preference <high | medium | low>
+    Configures the preference level for the router advertisements (RAs) sent by the router.
+    ipv6 nd managed-config-flag
+    Configures the router to instruct hosts to use DHCPv6 for address configuration.
+
+6. DHCPv6 Configuration
+
+    ipv6 dhcp pool <name>
+    Creates a DHCPv6 pool and enters DHCPv6 configuration mode.
+    address prefix <prefix/prefix-length> lifetime <valid-lifetime> <preferred-lifetime>
+    Configures the prefix and lifetimes for a DHCPv6 pool.
+    dns-server <address>
+    Configures a DNS server's IPv6 address in the DHCPv6 pool.
+    ipv6 dhcp relay destination <address>
+    Configures an interface to relay DHCPv6 requests to a DHCPv6 server.
+
+7. Tunneling
+
+    interface tunnel <number>
+    Enters configuration mode for a tunnel interface.
+    tunnel mode ipv6ip [6to4 | isatap | manually configured]
+    Specifies the tunnel mode for IPv6 tunneling.
+    tunnel source <interface>
+    Configures the source interface or IP address for the tunnel.
+    tunnel destination <address>
+    Specifies the destination IPv6 address for the tunnel.
+
+8. Multicast
+
+    ipv6 pim sparse-mode
+    Enables IPv6 Protocol Independent Multicast (PIM) sparse mode on an interface.
+    ipv6 mld join-group <group-address>
+    Configures an interface to join a specific IPv6 multicast group.
+
+9. Quality of Service (QoS)
+
+    ipv6 traffic-class <value>
+    Configures the traffic class field in the IPv6 header for QoS marking.
+    ipv6 policy-map <name>
+    Applies a QoS policy map to an interface for IPv6 traffic.
+
+/////  Show commands: /////
+
+shpw ipv6 int brief
+show ipv6 route
+
+1. IPv6 Interface Information
+
+    show ipv6 interface [brief | <interface>]
+    Displays the IPv6 configuration on all interfaces or a specific interface. The brief option provides a summary view.
+    show ipv6 interface status
+    Shows the status of IPv6 on all interfaces, including whether IPv6 is enabled or disabled.
+
+2. IPv6 Routing Information
+
+    show ipv6 route [<prefix>]
+    Displays the IPv6 routing table. You can specify a prefix to filter the output.
+    show ipv6 rip
+    Shows the status of RIPng (RIP for IPv6) on the router.
+    show ipv6 eigrp [<process-id>] topology
+    Displays the IPv6 EIGRP topology table.
+    show ipv6 ospf [<process-id>]
+    Displays information about the IPv6 OSPF process.
+    show ipv6 bgp [<prefix>]
+    Shows the IPv6 BGP table, including all BGP routes learned by the router.
+
+3. IPv6 Neighbor Discovery
+
+    show ipv6 neighbors
+    Displays the IPv6 Neighbor Discovery cache, which includes the MAC address mapping for each IPv6 address.
+    show ipv6 nd [<interface>]
+    Shows IPv6 Neighbor Discovery information on a specific interface.
+
+4. IPv6 Addressing Information
+
+    show ipv6 addresses
+    Displays all IPv6 addresses configured on the router's interfaces.
+    show ipv6 dhcp interface
+    Shows the status of DHCPv6 on each interface.
+
+5. IPv6 Traffic and Protocols
+
+    show ipv6 traffic
+    Displays statistics about IPv6 traffic, including packet counts and errors.
+    show ipv6 protocols
+    Lists the IPv6 routing protocols that are currently configured and running on the device.
+    show ipv6 mroute
+    Displays the IPv6 multicast routing table.
+
+6. IPv6 ACLs and Security
+
+    show ipv6 access-list
+    Displays the configured IPv6 access control lists (ACLs).
+    show ipv6 security
+    Provides an overview of the IPv6 security configuration.
+
+7. IPv6 Tunnels
+
+    show ipv6 tunnel
+    Displays information about IPv6 tunnels configured on the router.
+
+8. General IPv6 Information
+
+    show ipv6 status
+    Provides a general overview of IPv6 status on the router, including global configuration.
+    show ipv6 cef
+    Displays information about the Cisco Express Forwarding (CEF) for IPv6.

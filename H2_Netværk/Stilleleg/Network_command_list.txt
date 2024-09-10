@@ -1,0 +1,451 @@
+GW:
+
+Enable
+ter len 0
+
+Conf t
+Hostname GW
+ip domain-name kts.local
+no ip domain-lookup
+service password-encryption
+username SSHadmin password Passw0rd
+crypto key generate rsa modulus 1024
+enable secret Passw0rd
+banner motd $du kan få kebab$
+
+
+line console 0
+logging synchronous
+password Passw0rd
+login
+exec-timeout 4 0
+exit
+
+line vty 0 4
+login local
+transport input SSH
+exec-timeout 4 0
+exit
+
+vlan 11
+name vlan11
+exit
+
+vlan 22
+name vlan22
+exit
+
+
+int vlan 11
+ip address 172.21.1.1 255.255.255.252
+ip nat inside
+exit
+
+int vlan 22
+ip address 172.21.2.1 255.255.255.252
+ip nat inside
+exit
+
+int g0/0
+ip address 10.233.145.21 255.255.255
+no shutdown
+
+int g0/1/3
+switchport mode access
+switchport access vlan 11
+exit
+
+int g0/1/0
+switchport mode access
+switchport access vlan 22
+exit
+
+int g0/1
+no switchport
+ip nat outside
+ip address 10.233.144.21 255.255.255.0
+no shutdown
+exit
+
+ip dhcp excluded-address 172.21.20.1 - 172.21.20.30
+ip dhcp excluded-address 172.21.20.1 - 172.21.20.30
+ip dhcp excluded-address 172.21.30.1 - 172.21.30.30
+ip dhcp excluded-address 172.21.40.1 - 172.21.40.30
+
+ip dhcp pool Direktion
+network 172.21.10.0 255.255.255.0
+dns-server 8.8.8.8
+default-router 172.21.20.3
+domain-name kts.local
+exit
+
+ip dhcp pool Lager
+network 172.21.20.0 255.255.255.0
+dns-server 8.8.8.8
+default-router 172.21.20.3
+domain-name kts.local
+exit
+
+ip dhcp pool Regnskab
+network 172.21.30.0 255.255.255.0
+dns-server 8.8.8.8
+default-router 172.21.30.3
+domain-name kts.local
+exit
+
+ip dhcp pool Server
+network 172.21.40.0 255.255.255.0
+dns-server 8.8.8.8
+default-router 172.21.40.3
+domain-name kts.local
+exit
+
+router ospf 1
+router-id 1.1.1.1
+network 172.21.1.0 0.0.0.3 area 0
+network 172.21.2.0 0.0.0.3 area 0
+default-information originate
+passive-interface g0/1
+exit
+
+ip route 0.0.0.0 0.0.0.0 g0/1 10.233.144.1
+
+ip access-list standard TILLAD-NAT
+permit 172.21.0.0 0.0.255.255
+
+ip nat inside source list TILLAD-NAT int g0/0 overload
+
+
+RA:
+
+Enable
+ter len 0
+
+Conf t
+Hostname RA
+ip domain-name kts.local
+no ip domain-lookup
+service password-encryption
+username SSHadmin password Passw0rd
+crypto key generate rsa general-keys modulus 1024
+enable secret Passw0rd
+banner motd $pls go away$
+
+
+line console 0
+logging synchronous
+password Passw0rd
+login
+exec-timeout 4 0
+exit
+
+line vty 0 4
+login local
+transport input SSH
+exec-timeout 4 0
+exit
+
+vlan 10
+name Direktion
+exit
+
+vlan 11
+name Vlan11
+
+vlan 20
+name Lager
+exit
+
+vlan 30
+name Regnskab
+exit
+
+vlan 40
+name Server
+exit
+
+vlan 99
+name Management
+exit
+
+int vlan 10
+ip address 172.21.20.2 255.255.255.0
+ip helper-address 172.21.1.1
+standby 10 ip 172.21.20.3
+exit
+
+int vlan 20
+ip address 172.21.20.2 255.255.255.0
+ip helper-address 172.21.1.1
+standby 20 ip 172.21.20.3
+exit
+
+int vlan 11
+ip address 172.21.1.2 255.255.255.252
+exit
+
+int vlan 30
+ip address 172.21.30.2 255.255.255.0
+ip helper-address 172.21.1.1
+standby 30 ip 172.21.30.3
+exit
+
+int vlan 99
+ip address 172.21.99.2 255.255.255.0
+standby 99 ip 172.21.99.3
+exit
+
+int f0/24
+switchport mode access
+switchport access vlan 11
+exit
+
+ip routing
+
+router ospf 1
+router-id 2.2.2.2
+network 172.21.1.0 0.0.0.3 area 0
+network 172.21.20.0 0.0.0.255 area 0
+network 172.21.20.0 0.0.0.255 area 0
+network 172.21.30.0 0.0.0.255 area 0
+network 172.21.40.0 0.0.0.255 area 0
+network 172.21.99.0 0.0.0.255 area 0
+passive-interface default
+no passive-interface vlan 22
+no passive-interface vlan 99 
+
+int range f0/1-2
+shutdown
+channel-group 1 mode active
+exit
+
+int po 1
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,99
+exit
+
+int range f0/1-2
+no shutdown
+exit
+
+RB:
+
+Enable
+ter len 0
+
+Conf t
+Hostname RA
+ip domain-name kts.local
+no ip domain-lookup
+service password-encryption
+username SSHadmin password Passw0rd
+crypto key generate rsa general-keys modulus 1024
+enable secret Passw0rd
+banner motd $pls go away$
+ip-routing
+
+
+line console 0
+logging synchronous
+password Passw0rd
+login
+exec-timeout 4 0
+exit
+
+line vty 0 4
+login local
+transport input SSH
+exec-timeout 4 0
+exit
+
+vlan 10
+name Direktion
+exit
+
+vlan 22
+name Vlan22
+
+vlan 20
+name Lager
+exit
+
+vlan 30
+name Regnskab
+exit
+
+vlan 40
+name Server
+exit
+
+vlan 99
+name Management
+exit
+
+int vlan 10
+ip address 172.21.20.2 255.255.255.0
+ip helper-address 172.21.2.1
+standby 10 ip 172.21.20.3
+exit
+
+int vlan 20
+ip address 172.21.20.2 255.255.255.0
+ip helper-address 172.21.2.1
+standby 20 ip 172.21.20.3
+exit
+
+int vlan 22
+ip address 172.21.2.2 255.255.255.252
+exit
+
+int vlan 30
+ip address 172.21.30.2 255.255.255.0
+ip helper-address 172.21.2.1
+standby 30 ip 172.21.30.3
+exit
+
+int vlan 99
+ip address 172.21.99.2 255.255.255.0
+standby 99 ip 172.21.99.3
+exit
+
+int f0/24
+switchport mode access
+switchport access vlan 22
+exit
+
+ip routing
+
+router ospf 1
+router-id 3.3.3.3
+network 172.21.2.0 0.0.0.3 area 0
+network 172.21.20.0 0.0.0.255 area 0
+network 172.21.20.0 0.0.0.255 area 0
+network 172.21.30.0 0.0.0.255 area 0
+network 172.21.40.0 0.0.0.255 area 0
+network 172.21.99.0 0.0.0.255 area 0
+passive-interface default
+no passive-interface vlan 22
+no passive-interface vlan 99 
+
+int range f0/1-2
+shutdown
+channel-group 1 mode active
+exit
+
+int po 1
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,99
+exit
+
+int range f0/1-2
+no shutdown
+exit
+
+
+Switches:
+
+HUSK AT ÆNDRE IP Etherchannel NR og porte OG NAVN
+
+Enable
+ter len 0
+
+Conf t
+Hostname SW-A
+ip domain-name kts.local
+no ip domain-lookup
+service password-encryption
+username SSHadmin password Passw0rd
+crypto key generate rsa modulus 1024
+enable secret Passw0rd
+banner motd $im tired boss$
+service timestamps log datetime msec
+
+
+line console 0
+logging synchronous
+password Passw0rd
+login
+exec-timeout 4 0
+exit
+
+line vty 0 4
+login local
+transport input SSH
+exec-timeout 4 0
+exit
+
+vlan 10
+name Direktion
+exit
+
+vlan 22
+name Vlan22
+
+vlan 20
+name Lager
+exit
+
+vlan 30
+name Regnskab
+exit
+
+vlan 40
+name Server
+exit
+
+vlan 99
+name Management
+exit
+
+int vlan 99
+ip address 172.21.99.101 255.255.255.0
+ip default-gateway 172.21.99.3
+exit
+
+int range f0/1-2
+shutdown
+channel-group 1 mode active
+exit
+
+int po 1
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,99
+exit
+
+int range f0/3-4
+shutdown
+channel-group 3 mode active
+exit
+
+int po 3
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,99
+exit
+
+int range f0/1-6
+no shutdown
+exit
+
+int range f0/9-10
+switchport mode access
+switchport access vlan 10
+exit
+
+int range f0/11-12
+switchport mode access
+switchport access vlan 20
+exit
+
+int range f0/13-14
+switchport mode access
+switchport access vlan 30
+exit
+
+int range f0/15-16
+switchport mode access
+switchport access vlan 40
+exit
+
+Ræsterende porte lukkes
